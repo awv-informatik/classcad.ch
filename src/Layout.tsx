@@ -179,7 +179,6 @@ export const Main = styled.main`
 `
 
 export const Section = styled.div`
-  width; 100%;
   position: relative;
   display: flex;
   width: 100%;
@@ -250,7 +249,6 @@ export const Grid = styled.div<{ columns?: number | string; rows?: number; gap?:
   @media (max-width: 991px) {
     grid-template-columns: 1fr !important;
   }
-}
 `
 
 export function Feature({ title, children, icon: Icon }: any) {
