@@ -153,16 +153,21 @@ function Description({ version }) {
             return <code style={{ color: 'black' }} {...rest} />
           },
         }}>
-        {version.description}
+        {version?.description}
       </Markdown>
-      <div style={{ visibility: clicked ? "hidden" : "visible"}} className='absolute bottom-0 left-0 w-full h-40 bg-linear-to-t from-white to-white-0%' />
+      <div
+        style={{ visibility: clicked ? 'hidden' : 'visible' }}
+        className='absolute bottom-0 left-0 w-full h-40 bg-linear-to-t from-white to-white-0%'
+      />
     </div>
   )
 }
 
 function Downloads() {
   const { versions, platforms } = suspend(async () => {
-    const data = await fetch('https://awvstatic.com/classcad/download/metadata.json').then((res) => res.json())
+    const data = await fetch('https://awvstatic.com/classcad/download/metadata.json', { cache: 'no-cache' }).then(
+      (res) => res.json(),
+    )
     const versions = Object.values(data.versions).sort((a, b) => b.timestamp - a.timestamp)
     versions[0].originalName = versions[0].name
     versions[0].name = 'latest'
@@ -171,17 +176,16 @@ function Downloads() {
       const date = new Date(version.timestamp)
       version.date = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
       version.files = (await fetch(version.url).then((res) => res.json())).files
-      for (let { platform, arch } of version.files) {
+      for (let file of version.files) {
+        let { platform, arch, type, url } = file
         if (!platforms[platform]) platforms[platform] = { arch: [] }
         if (arch) {
           if (!platforms[platform].arch.includes(arch)) platforms[platform].arch.push(arch)
         }
-      }
-      const script = version.files.find((f) => f.type === 'script')
-      if (script) {
-        const url = script.url.substring(0, script.url.lastIndexOf('.')) + '.md'
-        const md = await fetch(url).then((res) => res.text())
-        version.description = md
+        if (type === 'markdown') {
+          const md = await fetch(url).then((res) => res.text())
+          file.description = md
+        }
       }
     }
     return { versions, platforms }
@@ -193,7 +197,8 @@ function Downloads() {
   const [plat, setPlatform] = React.useState(Object.keys(platforms)[0])
   const [arch, setArch] = React.useState(platforms[plat].arch[0])
   const version = versions.find((v) => v.name === vers)
-  const files = version.files.filter((f) => f.platform === plat && f.arch === arch)  
+  const files = version.files.filter((f) => f.platform === plat && f.arch === arch)
+  const mdFile = files.find((f) => Boolean(f?.description))
 
   //console.log(vers, plat, arch, version, files)
 
@@ -292,49 +297,51 @@ function Downloads() {
             <p className='truncate'>Path {version.path}</p>
           </div>
 
-          {version.description && <Description version={version} />}
+          {mdFile?.description && <Description version={mdFile} />}
         </div>
       </div>
 
       <ul role='list' className='divide-y divide-gray-100'>
-        {files.map((file) => (
-          <li key={file.md5} className='flex items-center justify-between gap-x-6 py-5'>
-            <div className='min-w-0'>
-              <div className='flex items-start gap-x-3'>
-                <p className='text-sm/6 font-semibold text-gray-900'>{file.name}</p>
-                <p
-                  className={classNames(
-                    statuses[version.quality],
-                    'mt-0.5 rounded-md px-1.5 py-0.5 text-xs font-medium whitespace-nowrap ring-1 ring-inset',
-                  )}>
-                  {version.quality}
-                </p>
+        {files
+          .filter((f) => f.type === 'archive')
+          .map((file) => (
+            <li key={file.md5} className='flex items-center justify-between gap-x-6 py-5'>
+              <div className='min-w-0'>
+                <div className='flex items-start gap-x-3'>
+                  <p className='text-sm/6 font-semibold text-gray-900'>{file.name}</p>
+                  <p
+                    className={classNames(
+                      statuses[version.quality],
+                      'mt-0.5 rounded-md px-1.5 py-0.5 text-xs font-medium whitespace-nowrap ring-1 ring-inset',
+                    )}>
+                    {version.quality}
+                  </p>
+                </div>
+                <div className='mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500'>
+                  {file.type && (
+                    <>
+                      <p className='truncate'>Type {file.type}</p>
+                      <svg viewBox='0 0 2 2' className='size-0.5 fill-current'>
+                        <circle r={1} cx={1} cy={1} />
+                      </svg>
+                    </>
+                  )}
+                  <p className='truncate'>Toolset {file.toolset}</p>
+                  <svg viewBox='0 0 2 2' className='size-0.5 fill-current'>
+                    <circle r={1} cx={1} cy={1} />
+                  </svg>
+                  <p className='truncate'>MD5 {file.md5}</p>
+                </div>
               </div>
-              <div className='mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500'>
-                {file.type && (
-                  <>
-                    <p className='truncate'>Type {file.type}</p>
-                    <svg viewBox='0 0 2 2' className='size-0.5 fill-current'>
-                      <circle r={1} cx={1} cy={1} />
-                    </svg>
-                  </>
-                )}
-                <p className='truncate'>Toolset {file.toolset}</p>
-                <svg viewBox='0 0 2 2' className='size-0.5 fill-current'>
-                  <circle r={1} cx={1} cy={1} />
-                </svg>
-                <p className='truncate'>MD5 {file.md5}</p>
+              <div className='flex flex-none items-center gap-x-4'>
+                <a
+                  href={file.url}
+                  className='hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50 sm:block'>
+                  Download<span className='sr-only'>, {version.name}</span>
+                </a>
               </div>
-            </div>
-            <div className='flex flex-none items-center gap-x-4'>
-              <a
-                href={file.url}
-                className='hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50 sm:block'>
-                Download<span className='sr-only'>, {version.name}</span>
-              </a>
-            </div>
-          </li>
-        ))}
+            </li>
+          ))}
       </ul>
     </>
   )
