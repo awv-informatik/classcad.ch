@@ -214,6 +214,7 @@ function Downloads() {
               id='version'
               name='v'
               autoComplete='version-name'
+              value={vers}
               className='col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6'
               onChange={(e) => setVersion(e.target.value)}>
               {versions.map((version) => (
@@ -236,6 +237,7 @@ function Downloads() {
               id='platform'
               name='platform'
               autoComplete='platform-name'
+              value={plat}
               className='col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6'
               onChange={(e) => (setPlatform(e.target.value), setArch(platforms[e.target.value].arch[0]))}>
               {Object.keys(platforms).map((platform) => (
@@ -259,6 +261,7 @@ function Downloads() {
                 id='arch'
                 name='arch'
                 autoComplete='arch-name'
+                value={arch}
                 className='col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6'
                 onChange={(e) => setArch(e.target.value)}>
                 {platforms[plat].arch.map((arch) => (
