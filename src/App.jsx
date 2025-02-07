@@ -135,11 +135,27 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+function getSelectionText() {
+  let text = ''
+  if (window.getSelection) {
+    text = window.getSelection().toString()
+  } else if (document.selection && document.selection.type != 'Control') {
+    text = document.selection.createRange().text
+  }
+  // remove leading and trailing whitespaces
+  text = text.replace(/^\s+|\s+$/g, '')
+  return text
+}
+
 function Description({ version }) {
   const [clicked, click] = useState(false)
   return (
     <div
-      onClick={() => click(!clicked)}
+      onClick={() => {
+        const selection = getSelectionText()
+        console.log(selection)
+        if (selection === '') click(!clicked)
+      }}
       style={{ cursor: 'pointer', maxHeight: clicked ? 'fit-content' : 256 }}
       className={`relative overflow-hidden prose !max-w-none w-full mt-5 rounded-lg border border-gray-100 p-5`}>
       <Markdown
@@ -155,14 +171,19 @@ function Description({ version }) {
         }}>
         {version.description}
       </Markdown>
-      <div style={{ visibility: clicked ? "hidden" : "visible"}} className='absolute bottom-0 left-0 w-full h-40 bg-linear-to-t from-white to-white-0%' />
+      <div
+        style={{ visibility: clicked ? 'hidden' : 'visible' }}
+        className='absolute bottom-0 left-0 w-full h-40 bg-linear-to-t from-white to-white-0%'
+      />
     </div>
   )
 }
 
 function Downloads() {
-  const { versions, platforms } = suspend(async () => {
-    const data = await fetch('https://awvstatic.com/classcad/download/metadata.json').then((res) => res.json())
+  const data = suspend(async () => {
+    const data = await fetch('https://awvstatic.com/classcad/download/metadata.json', { cache: 'no-cache' }).then(
+      (res) => res.json(),
+    )
     const versions = Object.values(data.versions).sort((a, b) => b.timestamp - a.timestamp)
     versions[0].originalName = versions[0].name
     versions[0].name = 'latest'
@@ -171,35 +192,67 @@ function Downloads() {
       const date = new Date(version.timestamp)
       version.date = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
       version.files = (await fetch(version.url).then((res) => res.json())).files
-      for (let { platform, arch } of version.files) {
+      for (let file of version.files) {
+        let { platform, arch, type, url } = file
         if (!platforms[platform]) platforms[platform] = { arch: [] }
         if (arch) {
           if (!platforms[platform].arch.includes(arch)) platforms[platform].arch.push(arch)
         }
-      }
-      const script = version.files.find((f) => f.type === 'script')
-      if (script) {
-        const url = script.url.substring(0, script.url.lastIndexOf('.')) + '.md'
-        const md = await fetch(url).then((res) => res.text())
-        version.description = md
+        if (type === 'markdown') {
+          const description = await fetch(url).then((res) => res.text())
+          file.description = description
+          // strip first empty line from description
+          file.description = file.description.replace(/^\s*\n/m, '')
+        }
       }
     }
     return { versions, platforms }
   }, ['meta'])
 
-  //console.log(versions, platforms)
+  const tags = {}
+  data.versions.forEach((version) => {
+    if (!tags[version.quality]) tags[version.quality] = []
+    const tag = tags[version.quality]
+    tag.push(version)
+  })
+
+  const [tag, setTag] = React.useState(Object.keys(tags)[0])
+  const versions = tags[tag]
+  const platforms = data.platforms
 
   const [vers, setVersion] = React.useState(versions[0].name)
   const [plat, setPlatform] = React.useState(Object.keys(platforms)[0])
   const [arch, setArch] = React.useState(platforms[plat].arch[0])
-  const version = versions.find((v) => v.name === vers)
-  const files = version.files.filter((f) => f.platform === plat && f.arch === arch)  
 
-  //console.log(vers, plat, arch, version, files)
+  const version = versions.find((v) => v.name === vers)
+  const files = version.files.filter((f) => f.platform === plat && f.arch === arch)
+  const descriptions = files.filter((f) => f.description)
 
   return (
     <>
-      <div className='mt-10 grid grid-cols-3 gap-x-6'>
+      <div className='mt-10 grid grid-cols-4 gap-x-6'>
+        <div className='sm:col-span-1'>
+          <label htmlFor='tag' className='block text-sm/6 font-medium text-gray-900'>
+            Tag
+          </label>
+          <div className='mt-2 grid grid-cols-1'>
+            <select
+              id='tag'
+              name='tag'
+              autoComplete='tag-name'
+              className='col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6'
+              onChange={(e) => (setTag(e.target.value), setArch(tags[e.target.value].arch[0]))}>
+              {Object.keys(tags).map((tag) => (
+                <option key={tag}>{tag}</option>
+              ))}
+            </select>
+            <ChevronDownIcon
+              aria-hidden='true'
+              className='pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4'
+            />
+          </div>
+        </div>
+
         <div className='sm:col-span-1'>
           <label htmlFor='version' className='block text-sm/6 font-medium text-gray-900'>
             Version
@@ -292,7 +345,9 @@ function Downloads() {
             <p className='truncate'>Path {version.path}</p>
           </div>
 
-          {version.description && <Description version={version} />}
+          {descriptions.map((description) => (
+            <Description key={description} version={description} />
+          ))}
         </div>
       </div>
 
