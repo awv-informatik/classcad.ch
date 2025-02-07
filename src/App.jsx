@@ -239,6 +239,7 @@ function Downloads() {
             <select
               id='tag'
               name='tag'
+              value={tag}
               autoComplete='tag-name'
               className='col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6'
               onChange={(e) => (setTag(e.target.value), setArch(tags[e.target.value].arch[0]))}>
@@ -260,7 +261,8 @@ function Downloads() {
           <div className='mt-2 grid grid-cols-1'>
             <select
               id='version'
-              name='v'
+              name='version'
+              value={vers}
               autoComplete='version-name'
               className='col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6'
               onChange={(e) => setVersion(e.target.value)}>
@@ -283,9 +285,17 @@ function Downloads() {
             <select
               id='platform'
               name='platform'
+              value={plat}
               autoComplete='platform-name'
               className='col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6'
-              onChange={(e) => (setPlatform(e.target.value), setArch(platforms[e.target.value].arch[0]))}>
+              onChange={(e) => {
+                console.log(e.target.value, platforms[e.target.value].arch[0])
+                setPlatform(e.target.value)
+
+                // Check if the selected platform has the current architecture
+                const hasArch = platforms[e.target.value].arch.find(a => a === arch)
+                if (!hasArch) setArch(platforms[e.target.value].arch[0])
+              }}>
               {Object.keys(platforms).map((platform) => (
                 <option key={platform}>{platform}</option>
               ))}
@@ -306,6 +316,7 @@ function Downloads() {
               <select
                 id='arch'
                 name='arch'
+                value={arch}
                 autoComplete='arch-name'
                 className='col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6'
                 onChange={(e) => setArch(e.target.value)}>
