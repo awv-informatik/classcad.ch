@@ -50,7 +50,7 @@ export default function App() {
         <Main>
           <Sidebar />
           <Content>
-            <Caption floating>
+            <Caption>
               CLASS <br /> <span style={{ paddingLeft: '1.85em' }}>CAD</span>
               <span style={{ position: 'relative', display: 'inline-block', top: '0.3em', fontWeight: 200 }}>+</span>
             </Caption>
@@ -66,7 +66,7 @@ export default function App() {
       <Section>
         <Sidebar />
         <Content className='margin-top'>
-          <Caption sub>DOWNLOADS —</Caption>
+          <Caption>DOWNLOADS —</Caption>
           <Downloads />
         </Content>
         <Sidebar />

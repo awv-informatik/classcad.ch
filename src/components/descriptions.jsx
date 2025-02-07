@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import Markdown from 'react-markdown'
-import { classNames, getSelectionText } from '../util'
-
+import { classNames, getSelectionText } from './util'
 
 export function Descriptions({ files }) {
   const [clicked, click] = useState(false)

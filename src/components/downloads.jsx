@@ -2,13 +2,8 @@ import React from 'react'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import { suspend } from 'suspend-react'
 import { Descriptions } from './descriptions'
-import { classNames } from '../util'
-
-const statuses = {
-  valid: 'text-green-700 bg-green-50 ring-green-600/20',
-  tag: 'text-gray-600 bg-gray-50 ring-gray-500/10',
-  dev: 'text-yellow-800 bg-yellow-50 ring-yellow-600/20',
-}
+import { Files } from './files'
+import { classNames, statuses } from './util'
 
 export function Downloads() {
   const data = suspend(async () => {
@@ -58,8 +53,6 @@ export function Downloads() {
   const version = versions.find((v) => v.name === vers)
   const files = version.files.filter((f) => f.platform === plat && f.arch === arch)
   const descriptions = files.filter((f) => f.description)
-
-  console.log(version)
 
   return (
     <>
@@ -197,46 +190,7 @@ export function Downloads() {
         </div>
       </div>
 
-      <ul role='list' className='divide-y divide-gray-100'>
-        {files.filter(file => file.type != "markdown").map((file) => (
-          <li key={file.md5} className='flex items-center justify-between gap-x-6 py-5'>
-            <div className='min-w-0'>
-              <div className='flex items-start gap-x-3'>
-                <p className='text-sm/6 font-semibold text-gray-900'>{file.name}</p>
-                <p
-                  className={classNames(
-                    statuses[version.quality],
-                    'mt-0.5 rounded-md px-1.5 py-0.5 text-xs font-medium whitespace-nowrap ring-1 ring-inset',
-                  )}>
-                  {version.quality}
-                </p>
-              </div>
-              <div className='mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500'>
-                {file.type && (
-                  <>
-                    <p className='truncate'>Type {file.type}</p>
-                    <svg viewBox='0 0 2 2' className='size-0.5 fill-current'>
-                      <circle r={1} cx={1} cy={1} />
-                    </svg>
-                  </>
-                )}
-                <p className='truncate'>Toolset {file.toolset}</p>
-                <svg viewBox='0 0 2 2' className='size-0.5 fill-current'>
-                  <circle r={1} cx={1} cy={1} />
-                </svg>
-                <p className='truncate'>MD5 {file.md5}</p>
-              </div>
-            </div>
-            <div className='flex flex-none items-center gap-x-4'>
-              <a
-                href={file.url}
-                className='hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50 sm:block'>
-                Download<span className='sr-only'>, {version.name}</span>
-              </a>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <Files files={files} version={version} />
     </>
   )
 }
