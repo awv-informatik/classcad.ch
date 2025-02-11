@@ -1,0 +1,52 @@
+{
+  "hosting": [
+    {
+      "target": "production",
+      "public": "dist",
+      "ignore": [
+        "firebase.json",
+        "package.json",
+        "vite.config.js",
+        "yarn.lock",
+        "README.md",
+        "**/.*",
+        "**/node_modules/**",
+        "**/.firebase/**",
+        "**/.yarn/**",
+        "**/.vscode/**",
+        "**/public/**",
+        "**/src/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    {
+      "target": "dev",
+      "public": "dist",
+      "ignore": [
+        "firebase.json",
+        "package.json",
+        "vite.config.js",
+        "yarn.lock",
+        "README.md",
+        "**/.*",
+        "**/node_modules/**",
+        "**/.firebase/**",
+        "**/.yarn/**",
+        "**/.vscode/**",
+        "**/public/**",
+        "**/src/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}
