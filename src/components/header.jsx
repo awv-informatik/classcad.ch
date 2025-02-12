@@ -16,7 +16,7 @@ export function Header({ children }) {
       <nav aria-label='Global' className='flex items-center justify-between'>
         <div className='flex lg:flex-1'>
           <a href='https://awv-informatik.ch' className='-m-1.5 p-1.5 flex gap-5'>
-            <img alt='' src='favicon.svg' className='h-6 w-auto' />
+            <img alt='' src='favicon.png' className='h-6 w-auto' />
             <span className='text-base/5 text-gray-900'>
               AWV —<br />
               Informatik AG

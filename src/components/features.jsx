@@ -14,7 +14,7 @@ const features = [
         <li>Own language to write CCScripts with API calls </li>
       </ul>
     ),
-    icon: TrashIcon,
+    icon: HeartIcon,
   },
   {
     name: 'Communication',
