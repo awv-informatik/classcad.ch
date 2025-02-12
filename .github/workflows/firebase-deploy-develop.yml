@@ -1,0 +1,38 @@
+name: Firebase deploy develop
+
+on:
+  push:
+    branches: [develop, dev/firebase]
+
+jobs:
+  firebase-deploy-develop:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: Install firebase tools
+        run: sudo npm install -g firebase-tools@13.30.0
+
+      - name: Checkout classcad.ch
+        uses: actions/checkout@v3
+        with:
+          path: classcad.ch
+          fetch-depth: 1
+
+      - name: Build classcad.ch
+        working-directory: ./classcad.ch
+        run: |
+          corepack enable
+          yarn
+          yarn build
+        env:
+          CI: ''
+
+      - name: Deploy classcad.ch develop
+        working-directory: ./classcad.ch
+        run: firebase deploy --only hosting:dev
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

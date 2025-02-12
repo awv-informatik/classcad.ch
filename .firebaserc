@@ -1,0 +1,17 @@
+{
+  "projects": {
+    "default": "awv-informatik"
+  },
+  "targets": {
+    "awv-informatik": {
+      "hosting": {
+        "production": [
+          "classcad-ch"
+        ],
+        "dev": [
+          "classcad-ch-staging-01"
+        ]
+      }
+    }
+  }
+}
