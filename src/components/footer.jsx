@@ -89,7 +89,7 @@ export function Footer() {
     <footer className='pt-16 pb-8 sm:pt-24 lg:pt-32'>
       <div className='xl:grid xl:grid-cols-3 xl:gap-8'>
         <div className='space-y-8'>
-          <img alt='Company name' src='https://dev.buerligons.io/favicon.svg' className='h-9' />
+          <img alt='Company name' src='favicon.png' className='h-9' />
           <p className='text-sm/6 text-balance text-gray-600'>On a mission to enable CAD everywhere.</p>
           <div className='flex gap-x-6'>
             {navigation.social.map((item) => (
