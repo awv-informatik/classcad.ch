@@ -25,6 +25,7 @@ jobs:
       - name: Build classcad.ch
         working-directory: ./classcad.ch
         run: |
+          corepack enable
           yarn
           yarn build
         env:
