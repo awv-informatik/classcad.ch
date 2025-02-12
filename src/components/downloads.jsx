@@ -12,19 +12,20 @@ export function Downloads() {
     )
     const versions = Object.values(data.versions).sort((a, b) => b.timestamp - a.timestamp)
     versions[0].originalName = versions[0].name
-    versions[0].name = 'latest'
+    versions[0].name = `${versions[0].name} (latest)`
     const platforms = {}
     for (let version of versions) {
       const date = new Date(version.timestamp)
       version.date = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
-      version.files = (await fetch(version.url).then((res) => res.json())).files
+      version.files = (await fetch(version.url, { cache: 'no-cache' }).then((res) => res.json())).files      
+      console.log(version.files)
       for (let file of version.files) {
         let { platform, arch, type, url } = file
         if (!platforms[platform]) platforms[platform] = { arch: [] }
         if (arch) {
           if (!platforms[platform].arch.includes(arch)) platforms[platform].arch.push(arch)
         }
-        if (type === 'markdown') {
+        if (type === 'markdown') {          
           const description = await fetch(url).then((res) => res.text())
           file.description = description
           // strip first empty line from description
@@ -54,8 +55,10 @@ export function Downloads() {
   const files = version.files.filter((f) => f.platform === plat && f.arch === arch)
   const descriptions = files.filter((f) => f.description)
 
+  console.log(files)
+
   return (
-    <>
+    <div>
       <div className='mt-10 grid grid-cols-4 gap-x-6'>
         <div className='sm:col-span-1'>
           <label htmlFor='tag' className='block text-sm/6 font-medium text-gray-900'>
@@ -179,18 +182,14 @@ export function Downloads() {
 
           <div className='mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500'>
             <p className='whitespace-nowrap'>
-              Valid until <time dateTime={version.date}>{version.date}</time>
-            </p>
-            <svg viewBox='0 0 2 2' className='size-0.5 fill-current'>
-              <circle r={1} cx={1} cy={1} />
-            </svg>
-            <p className='truncate'>Path {version.path}</p>
+              Created <time dateTime={version.date}>{version.date}</time>
+            </p>            
           </div>
           {descriptions.length && <Descriptions key={vers + plat + arch} files={descriptions} />}
         </div>
       </div>
 
       <Files files={files} version={version} />
-    </>
+    </div>
   )
 }

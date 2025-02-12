@@ -1,7 +1,15 @@
 import React from 'react'
+import { Suspense } from 'react'
+import { Downloads } from './components/downloads'
+import { Footer } from './components/footer'
+import { Header } from './components/header'
+import { Section } from './components/section'
+import { About } from './components/about'
+import { Features } from './components/features'
+
 import {
   Hero,
-  Header,
+  Header as _Header,
   Brand,
   Link,
   Spacer,
@@ -10,68 +18,62 @@ import {
   Sidebar,
   Caption,
   Video,
+  Description,
   ProductWrapper,
-  Section,
+  Section as _Section,
 } from './Layout'
-import { Downloads } from './components/downloads'
-import { Footer } from './components/footer'
 
 export default function App() {
-  const socialLinks = [
-    { name: 'Discord', url: 'https://discord.gg/MEbR7xyPMS' },
-    { name: 'Twitter', url: 'https://twitter.com/buerli_io' },
-    { name: 'Github', url: 'https://github.com/awv-informatik' },
-  ]
-  const productLinks = [
-    { name: 'Buerli', url: 'https://buerli.io', highlight: false },
-    { name: 'Buerligons', url: 'https://dev.buerligons.io', highlight: false },
-    { name: 'ClassCAD', url: 'http://classcad.ch', highlight: false },
-  ]
-
   return (
     <>
-      <Hero>
-        <Header>
-          <Brand>
-            <img style={{ position: 'relative', top: -2.5, height: 26 }} src='favicon.svg' alt='AWV Informatik AG' />
-            <Link href='https://awv-informatik.ch/'>
-              AWV —<br /> Informatik AG
-            </Link>
-          </Brand>
-          <Spacer />
-          {socialLinks.map(({ name, url }) => (
-            <Link key={name} href={url}>
-              {name}
-              <br />
-              &nbsp;
-            </Link>
-          ))}
-        </Header>
-        <Main>
-          <Sidebar />
-          <Content>
-            <Caption>
-              CLASS <br /> <span style={{ paddingLeft: '1.85em' }}>CAD</span>
-              <span style={{ position: 'relative', display: 'inline-block', top: '0.3em', fontWeight: 200 }}>+</span>
-            </Caption>
-            <Video autoPlay muted loop>
-              <source src='#' type='video/mp4' />
-            </Video>
-            <ProductWrapper></ProductWrapper>
-          </Content>
-          <Sidebar />
-        </Main>
-      </Hero>
+      <Header>
+        <Hero>
+          <Main style={{ position: "relative", top: 50 }}>
+            <Sidebar />
+            <Content>
+              <Caption floating>
+                CLASS <br /> <span style={{ paddingLeft: '1.3em' }}>CAD</span>
+                <span style={{ position: 'relative', display: 'inline-block', top: '0.3em', fontWeight: 200 }}>+</span>               
+              </Caption>
+              <Video autoPlay muted loop>
+                <source src='1736890314315510.mp4' type='video/mp4' />
+              </Video>
+              <ProductWrapper>
+                <Description width='75%'>
+                ClassCAD simplifies CAD/CAM development with efficient, concise tools and a deep understanding of CAD workflows, reducing development time and costs.
+                </Description>
+              </ProductWrapper>
+            </Content>
+            <Sidebar />
+          </Main>
+        </Hero>
+      </Header>
 
-      <Section>
-        <Sidebar />
-        <Content className='margin-top'>
-          <Caption>DOWNLOADS —</Caption>
-          <Downloads />
-        </Content>
-        <Sidebar />
+      <Section id='about'>
+        <About />
       </Section>
-      <Footer />
+      <Section id='features'>
+        <Features />
+      </Section>
+      <Section id='downloads'>
+        <div className='overflow-hidden bg-white py-24 sm:py-32'>
+          <div className='mx-auto'>
+            <p className='text-base/7 font-semibold text-indigo-600'>Downloads</p>
+            <h1 className='mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl'>
+              ClassCAD for platforms and systems
+            </h1>
+            <p className='mt-6 text-xl/8 text-balance text-gray-700'>
+              Here you can find the latest versions of ClassCAD for all supported platforms and systems.
+            </p>
+            <Suspense fallback={null}>
+              <Downloads />
+            </Suspense>
+          </div>
+        </div>
+      </Section>
+      <Section id='links'>
+        <Footer />
+      </Section>
     </>
   )
 }
