@@ -40,7 +40,8 @@ export default function App() {
               </Video>
               <ProductWrapper>
                 <Description width='75%'>
-                ClassCAD simplifies CAD/CAM development with efficient, concise tools and a deep understanding of CAD workflows, reducing development time and costs.
+                At AWV Informatik, we believe that even a small, dedicated team can build world-class software. With over 25 years of expertise in system integration, we’ve developed ClassCAD—a modern, API-driven CAD system that runs everywhere.
+
                 </Description>
               </ProductWrapper>
             </Content>

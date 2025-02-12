@@ -10,8 +10,8 @@ export function About() {
             On a mission to enable CAD everywhere
           </h1>
           <p className='mt-6 text-xl/8 text-balance text-gray-700'>
-            ClassCAD simplifies CAD/CAM development with efficient, concise tools and a deep understanding of CAD
-            workflows, reducing development time and costs.
+          ClassCAD simplifies Custom CAD development with efficient, concise tools and a deep understanding of CAD
+          workflows, reducing development time and costs.
           </p>
         </div>
         <section className='mt-20 grid grid-cols-1 lg:grid-cols-2 lg:gap-x-8 lg:gap-y-16'>

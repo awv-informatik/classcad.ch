@@ -6,63 +6,63 @@ const features = [
     name: 'ClassCAD Core and APIs',
     description: (
       <ul className='list-disc'>
-        <li>
-          A crossplatform C++ development for CAD called ClassCAD that is compiled for Win, Linux, WASM and runs also
-          under ARM64 with Ubuntu
-        </li>
-        <li>PartApi, AssemberAPI, etc as single source of truth</li>
-        <li>Own language to write CCScripts with API calls </li>
+         <li> ClassCAD is a object oriented crossplatform C++ development environment on top of a CAD kernel with own bytecode compiled CAD language. It is compiled for Win, Linux, WASM and runs also
+        under ARM64 with Ubuntu </li>
+        <li> We provide PartApi, AssembleAPI etc. These APIs are compiled into TS APIs and are used from our Buerli.io client development; A Python API will be available soon</li>
+        <li> A subset of the ClassCAD language will be available as CCScript for your automation tasks.</li>
+        <li> Results of API calls are communicated through a state datastructure to clients.</li>
       </ul>
     ),
-    icon: HeartIcon,
+    icon: TrashIcon,
   },
   {
-    name: 'Communication',
+    name: 'Instance mgmt, states and communication',
     description: (
       <ul className='list-disc'>
         <li>
-          <b>CLI</b>
+          With our instance manager we support a simple cloud scaling mechanism 
+          using <b>WebSockets</b> for fast, real-time CAD interaction,  instant
+          updates, and dynamic rendering.
+        </li>
+        <li>
+          We also support <b>WASM</b>, this means the CAD is entirely embedded within your app. No need for scaling at all!
+          Check it out on Buerligons.io
         </li>
         <li>
           Interact with our CAD engine via simple <b>HTTP requests</b>, accessible from any platform—perfect for
           automating design tasks, generating drawings, and rendering 3D models.
-        </li>
-        <li>
-          We support <b>WebSockets</b> for fast, real-time CAD interaction, enabling live collaboration, instant
-          updates, and dynamic rendering.
-        </li>
-        <li>
-          We also support <b>WASM</b>, this means the CAD is entirely embedded within your app.
         </li>
       </ul>
     ),
     icon: PencilSquareIcon,
   },
   {
-    name: 'Data Storage',
+    name: 'CAD Features',
     description: (
       <ul className='list-disc'>
-        <li>Discussion DB versus filesystem</li>
-        <li>.ofb, .asm in JSON</li>
-      </ul>
-    ),
-    icon: ChatBubbleOvalLeftEllipsisIcon,
-  },
-  {
-    name: 'Features',
-    description: (
-      <ul className='list-disc'>
-        <li>Supports constraint based sketching in 2d and constraint based assembliung in 3d.</li>
-        <li>
-          We’ve worked with the Smlib kernel from Solid Modelling Solutions for over 20 years. Initially, we used ACIS
-          and also evaluated OCC. Nvidia acquired Solid Modelling Solutions in 2022.
-        </li>
-        <li>Export formats STEP, or dxf via Open Design Alliance platform</li>
-        <li>VSCode Plugin for CCScript</li>
+        <li>standard features like extrusion/ revolve / fillet / chamfer and boolean operation</li>
+        <li>constraint based sketching in 2d and constraint based assembling in 3d.</li>
+        <li>support of expressions for part tables and in all features</li>
+        <li>drawing creation from 3d </li>
+        <li>using the nurbs kernel from Solid Modelling Solutions for over 20 years.</li>
+        <li>Import/Export formats via STEP, or export of drawings dxf via Open Design Alliance platform</li>
+        <li>New CAD features will be added with every release. Upcoming Extrude along path and sweeps, lofts etc. </li>
       </ul>
     ),
     icon: HeartIcon,
   },
+  {
+    name: 'Diverse',
+    description: (
+      <ul className='list-disc'>
+        <li>Continuous Innovation – Daily builts, backed by automated nightly testing for rock-solid reliability.</li>
+        <li>extensible Core -  Supporting libraries via dynamic linking and usage through our language</li>
+      </ul>
+    ),
+    icon: ChatBubbleOvalLeftEllipsisIcon,
+  },
+ 
+
 ]
 
 export function Features() {
