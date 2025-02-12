@@ -31,8 +31,8 @@ jobs:
         env:
           CI: ''
 
-      # - name: Deploy classcad.ch develop
-      #   working-directory: ./classcad.ch
-      #   run: firebase deploy --only hosting:dev
-      #   env:
-      #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - name: Deploy classcad.ch develop
+        working-directory: ./classcad.ch
+        run: firebase deploy --only hosting:dev
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
