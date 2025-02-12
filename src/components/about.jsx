@@ -1,5 +1,4 @@
 import React from 'react'
-import { Section } from './section'
 
 export function About() {
   return (
@@ -35,28 +34,28 @@ export function About() {
               <div className='aspect-square overflow-hidden rounded-xl shadow-xl outline-1 -outline-offset-1 outline-black/10'>
                 <img
                   alt=''
-                  src='https://images.unsplash.com/photo-1598257006458-087169a1f08d?&auto=format&fit=crop&crop=center&w=560&h=560&q=90'
+                  src='10.jpg'
                   className='block size-full object-cover'
                 />
               </div>
               <div className='-mt-8 aspect-square overflow-hidden rounded-xl shadow-xl outline-1 -outline-offset-1 outline-black/10 lg:-mt-40'>
                 <img
                   alt=''
-                  src='https://images.unsplash.com/photo-1559136555-9303baea8ebd?&auto=format&fit=crop&crop=left&w=560&h=560&q=90'
+                  src='4.jpg'
                   className='block size-full object-cover'
                 />
               </div>
               <div className='aspect-square overflow-hidden rounded-xl shadow-xl outline-1 -outline-offset-1 outline-black/10'>
                 <img
                   alt=''
-                  src='https://images.unsplash.com/photo-1559136555-9303baea8ebd?&auto=format&fit=crop&crop=left&w=560&h=560&q=90'
+                  src='8.jpg'
                   className='block size-full object-cover'
                 />
               </div>
               <div className='-mt-8 aspect-square overflow-hidden rounded-xl shadow-xl outline-1 -outline-offset-1 outline-black/10 lg:-mt-40'>
                 <img
                   alt=''
-                  src='https://images.unsplash.com/photo-1598257006458-087169a1f08d?&auto=format&fit=crop&crop=center&w=560&h=560&q=90'
+                  src='6.jpg'
                   className='block size-full object-cover'
                 />
               </div>

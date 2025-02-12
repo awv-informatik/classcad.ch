@@ -36,7 +36,7 @@ export default function App() {
                 <span style={{ position: 'relative', display: 'inline-block', top: '0.3em', fontWeight: 200 }}>+</span>               
               </Caption>
               <Video autoPlay muted loop>
-                <source src='1736890314315510.mp4' type='video/mp4' />
+                <source src='intro.mp4' type='video/mp4' />
               </Video>
               <ProductWrapper>
                 <Description width='75%'>
