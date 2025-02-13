@@ -3,6 +3,9 @@ import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import Markdown from 'react-markdown'
 import { classNames, getSelectionText } from './util'
 
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { oneLight as theme } from 'react-syntax-highlighter/dist/esm/styles/prism'
+
 export function Descriptions({ files }) {
   const [clicked, click] = useState(false)
   const [current, setCurrent] = React.useState(files[0])
@@ -56,9 +59,27 @@ export function Descriptions({ files }) {
             const { node, ...rest } = props
             return <pre style={{ background: 'transparent' }} {...rest} />
           },
-          code(props) {
+          /*code(props) {
             const { node, ...rest } = props
-            return <code style={{ color: 'black', whiteSpace: 'pre-line' }} {...rest} />
+            return <code style={{ color: 'black', whiteSpace: 'break-spaces' }} {...rest} />
+          },*/
+          code(props) {
+            const { children, className, node, ...rest } = props
+            const match = /language-(\w+)/.exec(className || '')
+            console.log(match)
+            return match ? (
+              <SyntaxHighlighter
+                {...rest}
+                PreTag='div'
+                children={String(children).replace(/\n$/, '')}
+                language={match[1]}
+                style={theme}
+              />
+            ) : (
+              <code {...rest} className={className}>
+                {children}
+              </code>
+            )
           },
         }}>
         {current.description}
