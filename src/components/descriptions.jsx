@@ -66,7 +66,7 @@ export function Descriptions({ files }) {
           code(props) {
             const { children, className, node, ...rest } = props
             const match = /language-(\w+)/.exec(className || '')
-            console.log(match)
+            console.log(theme)
             return match ? (
               <SyntaxHighlighter
                 {...rest}
@@ -76,7 +76,7 @@ export function Descriptions({ files }) {
                 style={theme}
               />
             ) : (
-              <code {...rest} className={className}>
+              <code {...rest} className={className} style={{ whiteSpace: 'break-spaces' }}>
                 {children}
               </code>
             )
