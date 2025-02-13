@@ -5,6 +5,8 @@ import { Descriptions } from './descriptions'
 import { Files } from './files'
 import { classNames, statuses } from './util'
 
+import { mds } from '../usage'
+
 export function Downloads() {
   const data = suspend(async () => {
     const data = await fetch('https://awvstatic.com/classcad/download/metadata.json', { cache: 'no-cache' }).then(
@@ -17,15 +19,14 @@ export function Downloads() {
     for (let version of versions) {
       const date = new Date(version.timestamp)
       version.date = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`
-      version.files = (await fetch(version.url, { cache: 'no-cache' }).then((res) => res.json())).files      
-      console.log(version.files)
+      version.files = (await fetch(version.url, { cache: 'no-cache' }).then((res) => res.json())).files
       for (let file of version.files) {
         let { platform, arch, type, url } = file
         if (!platforms[platform]) platforms[platform] = { arch: [] }
         if (arch) {
           if (!platforms[platform].arch.includes(arch)) platforms[platform].arch.push(arch)
         }
-        if (type === 'markdown') {          
+        if (type === 'markdown') {
           const description = await fetch(url).then((res) => res.text())
           file.description = description
           // strip first empty line from description
@@ -33,6 +34,12 @@ export function Downloads() {
         }
       }
     }
+
+    for (const md of mds) {
+      md.description = await fetch(md.url).then((res) => res.text())
+      md.description = md.description.replace(/\r\n/g, '\n')
+    }
+
     return { versions, platforms }
   }, ['meta'])
 
@@ -55,7 +62,17 @@ export function Downloads() {
   const files = version.files.filter((f) => f.platform === plat && f.arch === arch)
   const descriptions = files.filter((f) => f.description)
 
-  console.log(files)
+  const archive = files.find((f) => f.type === 'archive') // There is only one archive file per version/platform/arch!
+  const archiveUrl = archive.url
+
+  const currVers = versions.find((v) => v.name === vers)
+  const verName = currVers?.originalName || currVers?.name
+  const usages = mds
+    .filter((f) => f.platform === plat && f.arch === arch)
+    .map((u) => ({
+      ...u,
+      description: u.description.replace(/%URL%/g, archiveUrl).replace(/%VERSION%/g, verName),
+    }))
 
   return (
     <div>
@@ -183,9 +200,10 @@ export function Downloads() {
           <div className='mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500'>
             <p className='whitespace-nowrap'>
               Created <time dateTime={version.date}>{version.date}</time>
-            </p>            
+            </p>
           </div>
-          {descriptions.length && <Descriptions key={vers + plat + arch} files={descriptions} />}
+          {usages.length > 0 && <Descriptions key={vers + plat + arch} files={usages} />}
+          {descriptions.length && usages.length == 0 && <Descriptions key={vers + plat + arch} files={descriptions} />}
         </div>
       </div>
 
