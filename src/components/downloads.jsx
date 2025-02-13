@@ -65,13 +65,19 @@ export function Downloads() {
   const archive = files.find((f) => f.type === 'archive') // There is only one archive file per version/platform/arch!
   const archiveUrl = archive.url
 
+  const script = files.find((f) => f.type === 'script') // There is only one script file per version/platform/arch!
+  const scriptUrl = script.url
+
   const currVers = versions.find((v) => v.name === vers)
   const verName = currVers?.originalName || currVers?.name
   const usages = mds
     .filter((f) => f.platform === plat && f.arch === arch)
     .map((u) => ({
       ...u,
-      description: u.description.replace(/%URL%/g, archiveUrl).replace(/%VERSION%/g, verName),
+      description: u.description
+        .replace(/%URL%/g, archiveUrl)
+        .replace(/%VERSION%/g, verName)
+        .replace(/%SCRIPT_URL%/g, scriptUrl),
     }))
 
   return (
