@@ -20,7 +20,7 @@ export function Files({ files, version }) {
                 </p>*/}
               </div>
               <div className='mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500'>                            
-                <p className='truncate'>MD5 {file.md5.substring(0, 20)}...</p>
+                <p className='truncate'>MD5 {file.md5}</p>
                 <svg viewBox='0 0 2 2' className='size-0.5 fill-current'>
                   <circle r={1} cx={1} cy={1} />
                 </svg>

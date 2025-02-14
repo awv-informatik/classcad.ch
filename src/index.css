@@ -49,3 +49,7 @@ video {
     text-decoration: auto;
   }
 }
+
+code, pre, pre > div {
+  background: transparent!important;
+}

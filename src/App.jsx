@@ -41,7 +41,6 @@ export default function App() {
               <ProductWrapper>
                 <Description width='75%'>
                 At AWV Informatik, we believe that even a small, dedicated team can build world-class software. With over 25 years of expertise in system integration, we’ve developed ClassCAD—a modern, API-driven CAD system that runs everywhere.
-
                 </Description>
               </ProductWrapper>
             </Content>
