@@ -6,9 +6,10 @@ const features = [
     name: 'ClassCAD Core and APIs',
     description: (
       <ul className='list-disc'>
-         <li> ClassCAD is a object oriented crossplatform C++ development environment on top of a CAD kernel with own bytecode compiled CAD language. It is compiled for Win, Linux, WASM and runs also
+         <li> ClassCAD is a object oriented crossplatform C++ development environment on top of a CAD kernel with own bytecode compiled CAD language.
+           It is compiled for Win, Linux, WASM and runs also
         under ARM64 with Ubuntu </li>
-        <li> We provide PartApi, AssembleAPI etc. These APIs are compiled into TS APIs and are used from our Buerli.io client development; A Python API will be available soon</li>
+        <li> We provide PartApi, AssembleAPI and more. These APIs are compiled into TS APIs and are used from our Buerli.io client development; A Python API will be available soon</li>
         <li> A subset of the ClassCAD language will be available as CCScript for your automation tasks.</li>
         <li> Results of API calls are communicated through a state datastructure to clients.</li>
       </ul>
@@ -16,17 +17,15 @@ const features = [
     icon: TrashIcon,
   },
   {
-    name: 'Instance mgmt, states and communication',
+    name: 'Communication',
     description: (
       <ul className='list-disc'>
-        <li>
-          With our instance manager we support a simple cloud scaling mechanism 
-          using <b>WebSockets</b> for fast, real-time CAD interaction,  instant
-          updates, and dynamic rendering.
+         <li>
+          We also support <b>WASM</b>, so CAD runs entirely embedded within your browser app. No need for special scaling at all!
+          Check it out on Buerligons.io
         </li>
         <li>
-          We also support <b>WASM</b>, this means the CAD is entirely embedded within your app. No need for scaling at all!
-          Check it out on Buerligons.io
+          In interactive applications, we use Websocket technologies for communication with the client. 
         </li>
         <li>
           Interact with our CAD engine via simple <b>HTTP requests</b>, accessible from any platform—perfect for
@@ -41,12 +40,12 @@ const features = [
     description: (
       <ul className='list-disc'>
         <li>standard features like extrusion/ revolve / fillet / chamfer and boolean operation</li>
-        <li>constraint based sketching in 2d and constraint based assembling in 3d.</li>
+        <li>constraint based sketching in 2d and assembling in 3d.</li>
         <li>support of expressions for part tables and in all features</li>
-        <li>drawing creation from 3d </li>
-        <li>using the nurbs kernel from Solid Modelling Solutions for over 20 years.</li>
-        <li>Import/Export formats via STEP, or export of drawings dxf via Open Design Alliance platform</li>
-        <li>New CAD features will be added with every release. Upcoming Extrude along path and sweeps, lofts etc. </li>
+        <li>Import/Export via STEP</li>
+        <li>2d drawing creation from 3d and dxf export via ODA platform</li>
+        <li>using the nurbs cad kernel from Solid Modelling Solutions.</li>
+        <li>New CAD features will be added with every release. Upcoming extrude along path and sweeps, lofts etc. </li>
       </ul>
     ),
     icon: HeartIcon,
@@ -56,7 +55,7 @@ const features = [
     description: (
       <ul className='list-disc'>
         <li>Continuous Innovation – Daily builts, backed by automated nightly testing for rock-solid reliability.</li>
-        <li>extensible Core -  Supporting libraries via dynamic linking and usage through our language</li>
+        <li>Read our blog and news section for more information LINK </li>
       </ul>
     ),
     icon: ChatBubbleOvalLeftEllipsisIcon,
